@@ -63,7 +63,7 @@ if __name__ == '__main__':
         else:
             fft_win_size = cal_window_size(train)
             all_wins2 = [fft_win_size]
-            all_wins2.extend([25, 50, 100, 200, 300, 400, 500, 600, 700, 800])
+            all_wins2.extend([25, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800])
 
             plt.cla()
             #plt.figure(figsize=(100,100))
@@ -74,15 +74,17 @@ if __name__ == '__main__':
 
             
             #draw luminol
-            lu_anomaly_score_l = luminol_detect(test)
-            plt.subplot(len(all_wins2)+2, 1, 2)
-            plt.ylabel("lu")
-            plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
-            plt.plot([i + train_size for i in range(len(lu_anomaly_score_l))], lu_anomaly_score_l)
-            if len(lu_anomaly_score_l) < len(test):
-                    plt.plot([i + train_size + len(lu_anomaly_score_l) for i in range(len(test)- len(lu_anomaly_score_l))], [0 for i in range(len(test)- len(lu_anomaly_score_l))])
-            lu_anomaly_score_max_index = np.argmax(lu_anomaly_score_l) + train_size
-            plt.axvline(lu_anomaly_score_max_index, color="black")
+            if len(all_data) < 100 * 1000:
+                lu_anomaly_score_l = luminol_detect(test)
+                plt.subplot(len(all_wins2)+2, 1, 2)
+                plt.ylabel("lu")
+                plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
+                plt.plot([i + train_size for i in range(len(lu_anomaly_score_l))], lu_anomaly_score_l)
+                if len(lu_anomaly_score_l) < len(test):
+                        plt.plot([i + train_size + len(lu_anomaly_score_l) for i in range(len(test)- len(lu_anomaly_score_l))], 
+                                [0 for i in range(len(test)- len(lu_anomaly_score_l))])
+                lu_anomaly_score_max_index = np.argmax(lu_anomaly_score_l) + train_size
+                plt.axvline(lu_anomaly_score_max_index, color="black")
 
             #draw matrix profile
             res, p_l = mp_detect_abjoin_multiwin(test, train, all_wins2)
