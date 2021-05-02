@@ -31,14 +31,14 @@ def mp_detect_abjoin_multiwin(ts, query, win_size_l):
     return l[0], p_l
 
 if __name__ == '__main__':
-    sample_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../samples"))
+    sample_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "samples"))
     result_file_name_prefix = sys.argv[0].split(".")[0]
     start_file_no = int(sys.argv[1])
 
-    of = open(result_file_name_prefix+".csv", "a+")
-    of.write("No.,location\n")
-    of2 = open(result_file_name_prefix+"_winsize.csv", "a+")
-    of2.write("No.,winsize\n")
+    #of = open(result_file_name_prefix+".csv", "a+")
+    #of.write("No.,location\n")
+    #of2 = open(result_file_name_prefix+"_winsize.csv", "a+")
+    #of2.write("No.,winsize\n")
     for sample_file in os.listdir(sample_dir):
         file_no = int(sample_file.split("_")[0])
         if file_no < start_file_no:
@@ -109,12 +109,11 @@ if __name__ == '__main__':
         print(file_no, mp_value, outlier_pos, window_size)
         sys.stdout.flush()
         
-        of.write(""+str(file_no)+","+str(outlier_pos)+"\n")
-        of.flush()
-
-        of2.write(""+str(file_no)+","+str(window_size)+"\n")
-        of2.flush()
+        #of.write(""+str(file_no)+","+str(outlier_pos)+"\n")
+        #of.flush()
+        #of2.write(""+str(file_no)+","+str(window_size)+"\n")
+        #of2.flush()
 
         
-    of.close()
-    of2.close()
+    #of.close()
+    #of2.close()
