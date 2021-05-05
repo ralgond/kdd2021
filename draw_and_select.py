@@ -35,10 +35,6 @@ if __name__ == '__main__':
     result_file_name_prefix = sys.argv[0].split(".")[0]
     start_file_no = int(sys.argv[1])
 
-    #of = open(result_file_name_prefix+".csv", "a+")
-    #of.write("No.,location\n")
-    #of2 = open(result_file_name_prefix+"_winsize.csv", "a+")
-    #of2.write("No.,winsize\n")
     for sample_file in os.listdir(sample_dir):
         file_no = int(sample_file.split("_")[0])
         if file_no < start_file_no:
@@ -58,64 +54,55 @@ if __name__ == '__main__':
         mp_value = 0.0
         window_size = 0
         outlier_pos = 0
+        
+        fft_win_size = cal_window_size(train)
+        all_wins2 = [fft_win_size]
+        all_wins2.extend([25, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800])
+
         if file_no in [239,240,241]:
-            outlier_pos, window_size = 0 + train_size, 0 #give up large samples
-        else:
-            fft_win_size = cal_window_size(train)
             all_wins2 = [fft_win_size]
-            all_wins2.extend([25, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800])
+            all_wins2.extend([1000, 1100, 1200, 1300, 1400, 1500])
 
-            plt.cla()
-            #plt.figure(figsize=(100,100))
-            plt.subplot(len(all_wins2)+2, 1, 1)
-            plt.title("{} - fft_win_size={}".format(file_no, fft_win_size))
-            plt.plot([i for i in range(len(train))], train, color="green")
-            plt.plot([i + train_size for i in range(len(test))], test, color="blue")
+        plt.cla()
+        #plt.figure(figsize=(100,100))
+        plt.subplot(len(all_wins2)+2, 1, 1)
+        plt.title("{} - fft_win_size={}".format(file_no, fft_win_size))
+        plt.plot([i for i in range(len(train))], train, color="green")
+        plt.plot([i + train_size for i in range(len(test))], test, color="blue")
 
-            
-            #draw luminol
-            if len(all_data) < 100 * 1000:
-                lu_anomaly_score_l = luminol_detect(test)
-                plt.subplot(len(all_wins2)+2, 1, 2)
-                plt.ylabel("lu")
-                plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
-                plt.plot([i + train_size for i in range(len(lu_anomaly_score_l))], lu_anomaly_score_l)
-                if len(lu_anomaly_score_l) < len(test):
-                        plt.plot([i + train_size + len(lu_anomaly_score_l) for i in range(len(test)- len(lu_anomaly_score_l))], 
-                                [0 for i in range(len(test)- len(lu_anomaly_score_l))])
-                lu_anomaly_score_max_index = np.argmax(lu_anomaly_score_l) + train_size
-                plt.axvline(lu_anomaly_score_max_index, color="black")
+        
+        #draw luminol
+        if len(all_data) < 100 * 1000:
+            lu_anomaly_score_l = luminol_detect(test)
+            plt.subplot(len(all_wins2)+2, 1, 2)
+            plt.ylabel("lu")
+            plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
+            plt.plot([i + train_size for i in range(len(lu_anomaly_score_l))], lu_anomaly_score_l)
+            if len(lu_anomaly_score_l) < len(test):
+                    plt.plot([i + train_size + len(lu_anomaly_score_l) for i in range(len(test)- len(lu_anomaly_score_l))], 
+                            [0 for i in range(len(test)- len(lu_anomaly_score_l))])
+            lu_anomaly_score_max_index = np.argmax(lu_anomaly_score_l) + train_size
+            plt.axvline(lu_anomaly_score_max_index, color="black")
 
-            #draw matrix profile
-            res, p_l = mp_detect_abjoin_multiwin(test, train, all_wins2)
-            for idx, profile in enumerate(p_l):
-                plt.subplot(len(all_wins2)+2, 1, 3+idx)
-                plt.ylabel("{}".format(all_wins2[idx]))
-                plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
-                plt.plot([i + train_size for i in range(len(profile))], profile)
-                if len(profile) < len(test):
-                    plt.plot([i + train_size + len(profile) for i in range(len(test)- len(profile))], [0 for i in range(len(test)- len(profile))])
+        #draw matrix profile
+        res, p_l = mp_detect_abjoin_multiwin(test, train, all_wins2)
+        for idx, profile in enumerate(p_l):
+            plt.subplot(len(all_wins2)+2, 1, 3+idx)
+            plt.ylabel("{}".format(all_wins2[idx]))
+            plt.plot([i for i in range(len(train))], [0 for i in range(len(train))])
+            plt.plot([i + train_size for i in range(len(profile))], profile)
+            if len(profile) < len(test):
+                plt.plot([i + train_size + len(profile) for i in range(len(test)- len(profile))], [0 for i in range(len(test)- len(profile))])
 
-                max_index = np.argmax(profile) + train_size
-                plt.axvline(max_index, color="black")
-            plt.show()
+            max_index = np.argmax(profile) + train_size
+            plt.axvline(max_index, color="black")
+        plt.show()
 
-            res_p, res_pi, res_w = res
-            #res_p, res_pi, res_w = detect2_1(test, train, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000])
-            outlier_pos = res_pi + train_size
-            window_size = res_w
-            mp_value = res_p
-
-            
+        res_p, res_pi, res_w = res
+        #res_p, res_pi, res_w = detect2_1(test, train, [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000])
+        outlier_pos = res_pi + train_size
+        window_size = res_w
+        mp_value = res_p
 
         print(file_no, mp_value, outlier_pos, window_size)
         sys.stdout.flush()
-        
-        #of.write(""+str(file_no)+","+str(outlier_pos)+"\n")
-        #of.flush()
-        #of2.write(""+str(file_no)+","+str(window_size)+"\n")
-        #of2.flush()
-
-        
-    #of.close()
-    #of2.close()
