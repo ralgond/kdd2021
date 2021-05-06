@@ -57,7 +57,7 @@ if __name__ == '__main__':
         
         fft_win_size = cal_window_size(train)
         all_wins2 = [fft_win_size]
-        all_wins2.extend([25, 50, 100, 150, 200, 300, 400, 500, 600, 700, 800])
+        all_wins2.extend([10, 25, 50, 100, 150, 200, 300, 400, 500, 600, 700])
 
         if file_no in [239,240,241]:
             all_wins2 = [fft_win_size]
