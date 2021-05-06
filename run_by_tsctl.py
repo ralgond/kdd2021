@@ -102,7 +102,7 @@ if __name__ == '__main__':
             train, test = read_train_test(os.path.join(sample_dir, sample_file), train_size)
 
             outlier_pos = 0
-            if file_no in [239,240,241]:
+            if file_no in [0]:
                 outlier_pos = 0 #give up large samples
             else:
                 tsctl = tsctl_array[file_no]
