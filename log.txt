@@ -23,6 +23,7 @@
 75 200->100【失败】
 
 round2.base=6.0
+round2.result=7.2
 
 【76-100】
 77 110790
@@ -38,6 +39,9 @@ round2.base=6.0
 95 lu
 96 200->100
 98 lu
+
+round2.base=6.0
+round2.result=6.8
 
 【126-150】
 144
