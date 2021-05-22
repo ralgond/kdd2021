@@ -1,3 +1,4 @@
+import os
 import pyscamp as mp
 import numpy as np
 from scipy.fftpack import fft,ifft
@@ -38,13 +39,17 @@ def mp_detect_abjoin(ts, query, win_size):
     max_index = np.argmax(profile)
     return profile[max_index], max_index, profile
 
-def luminol_detect(ts):
+def luminol_detect_dd(ts, smoothing_factor=None):
     ts2 = {}
     for idx,value in enumerate(ts):
         ts2[idx] = value
-    my_detector = AnomalyDetector(ts2, algorithm_name="derivative_detector")
+    ap = {}
+    if smoothing_factor is not None:
+        ap['smoothing_factor'] = smoothing_factor
+    my_detector = AnomalyDetector(ts2, algorithm_name="derivative_detector", algorithm_params=ap)
     anomaly_score_l = [value for timestamp, value in my_detector.get_all_scores().iteritems()]
     return anomaly_score_l
+
 
 def read_train_test(file_path, train_size):
     train = []
@@ -55,3 +60,48 @@ def read_train_test(file_path, train_size):
         else:
             test.append(float(line.strip()))
     return train, test
+
+def zl(length):
+    return [0 for i in range(length)]
+
+
+def read_lu_dd_02(file_no):
+    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.2", str(file_no)+".txt")
+    lu_score_l = []
+    for line in open(file_path):
+        lu_score_l.append(float(line.strip()))
+    return lu_score_l
+
+
+def read_rra(win_size, file_no):
+    file_path = os.path.join("gv_rra_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
+    if not os.path.exists(file_path):
+        return None
+    l = []
+    for line in open(file_path):
+        if line.startswith("discord "):
+            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
+            l.append(int(pos))
+    return l
+
+def read_hotsax(win_size, file_no):
+    file_path = os.path.join("gv_hotsax_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
+    if not os.path.exists(file_path):
+        return None
+    l = []
+    for line in open(file_path):
+        if line.startswith("discord "):
+            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
+            l.append(int(pos))
+    return l
+
+
+def to50fold(n):
+    return (int(n) // 50 + 1) * 50
+
+
+def to25fold(n):
+    return (int(n) // 25 + 1) * 25
+
+if __name__ == "__main__":
+    print (read_hotsax(8))
