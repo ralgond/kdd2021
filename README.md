@@ -1,9 +1,6 @@
 # kdd2021
 
-## install requirement software
-pip install -r requirements.txt
-
-## prepare samples
+## prepare
 mkdir -p ml/tsad/
 
 cd ml/tsad/
@@ -11,6 +8,8 @@ cd ml/tsad/
 git clone git@github.com:ralgond/kdd2021.git
 
 cd kdd2021
+
+pip install -r requirements.txt
 
 mkdir samples_tmp
 
@@ -29,6 +28,8 @@ ls -l samples_tmp
 -rwxrwxrwx 1 thuang thuang   147312 Oct  8  2020 008_UCR_Anomaly_4000.txt
 -rwxrwxrwx 1 thuang thuang   147312 Oct  8  2020 009_UCR_Anomaly_4000.txt
 ```
+
+mkdir samples
 
 python gen_right_format_samples.py
 
