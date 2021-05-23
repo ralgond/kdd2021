@@ -556,10 +556,6 @@ if __name__ == "__main__":
         else:
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300]
 
-        # if fft_win_size <= 50:
-        #     ctx['hs_win_size_l'] = [25, 50, 75, 100, 125, 150, 175]
-        # elif fft_win_size <= 150:
-        #     ctx['hs_win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250]
 
         ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
         if fft_win_size <= 50:
@@ -571,25 +567,13 @@ if __name__ == "__main__":
         elif fft_win_size <= 350:
             ctx['win_size_l'] = [25, 50, 75, 100, 125]
         elif fft_win_size <= 450:
-            #ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400]
             ctx['win_size_l'] = [200, 250, 300, 350, 400, 450]
         elif fft_win_size <= 550:
             ctx['win_size_l'] = [500, 550, 600, 650, 700, 750, 800, 900, 1000]
         elif fft_win_size <= 1600:
             ctx['win_size_l'] = [1600]
         else:
-            ctx['win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400]
-
-        # if fft_win_size <= 50: #(25, 50]
-        #     ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175]
-        # elif fft_win_size <= 150: #(50, 150]
-        #     ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 225, 250]
-        # elif fft_win_size <= 250: #(150, 250]
-        #     ctx['win_size_l'] = [100, 125, 150, 175, 200, 225, 250, 275, 300, 325]
-        # elif fft_win_size <= 500: #(250, 500]
-        #     ctx['win_size_l'] = [150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
-        # else: #(500, )
-        #     ctx['win_size_l'] = [150, 200, 250, 300, 350, 400, 450, 500, 550, 600]        
+            ctx['win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400]      
 
         ctx['all_data'] = all_data
         ctx['train'] = train
