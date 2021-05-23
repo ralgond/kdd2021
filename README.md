@@ -4,9 +4,13 @@
 pip install -r requirements.txt
 
 ## prepare samples
-mkdir -p ml/tsad/kdd2021
+mkdir -p ml/tsad/
 
-cd ml/tsad/kdd2021
+cd ml/tsad/
+
+git clone git@github.com:ralgond/kdd2021.git
+
+cd kdd2021
 
 mkdir samples_tmp
 
