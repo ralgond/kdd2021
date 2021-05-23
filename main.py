@@ -592,5 +592,5 @@ if __name__ == "__main__":
 
         finish(ctx, file_no, ctx['outlier_pos'])
 
-        visualize(ctx)
+        #visualize(ctx)
     of.close()

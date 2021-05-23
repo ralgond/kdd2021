@@ -110,3 +110,7 @@ python gen_gv_hotsax.py 650
 mkdir output
 
 python main.py 1
+
+```
+output/main.csv is the result
+```
