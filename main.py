@@ -42,10 +42,10 @@ class Cluster:
             score += 1.5
 
         if self.has_lu and self.hs_cnt >= 2 and self.mp_cnt >= 5:
-            score += 3 # 95 <= 50
+            score += 3 # 95
 
         if self.mp_cnt >= 4:
-            score += 0.5 # 55 <= 150
+            score += 0.5 # 55
 
         if self.fft_win_size > 250 and self.fft_win_size <= 500:
             if self.hs_cnt >= 4:
@@ -554,7 +554,8 @@ if __name__ == "__main__":
         elif fft_win_size <= 1600:
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300]
         else:
-            ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300]
+            #ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300]
+            ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700]
 
 
         ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600]

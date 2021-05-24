@@ -1,11 +1,19 @@
 # kdd2021
 
 ## prepare
+```
+install jdk 1.8
+
+install maven 3.6.0
+
+install python 3.7.0
+```
+
 mkdir -p ml/tsad/
 
 cd ml/tsad/
 
-git clone git@github.com:ralgond/kdd2021.git
+unzip general_final.zip -d kdd2021
 
 cd kdd2021
 
@@ -35,13 +43,6 @@ python gen_right_format_samples.py
 
 rm -rf samples_tmp
 
-## prepare luminol result
-mkdir lu_dd_output
-
-mkdir lu_dd_output/0.2
-
-python gen_lu_dd_02.py
-
 ## prepare train-only and test-only data
 mkdir only_train_input
 
@@ -51,6 +52,12 @@ python gen_train_input.py
 
 python gen_test_input.py
 
+## prepare luminol result
+mkdir lu_dd_output
+
+mkdir lu_dd_output/0.2
+
+python gen_lu_dd_02.py
 
 ## prepare hotsax result
 git clone git@github.com:ralgond/grammarviz2_src.git
@@ -65,7 +72,7 @@ mkdir gv_hotsax_output
 
 cd gv_hotsax_output/
 
-mkdir 100 125 150 175 200 225 25 250 300 350 400 450 50 500 550 600 650 700 75 750 800
+mkdir 100 125 150 175 200 225 25 250 300 350 400 450 50 500 550 600 650 700 750 750 800
 
 cd ..
 
@@ -105,6 +112,7 @@ python gen_gv_hotsax.py 600
 
 python gen_gv_hotsax.py 650
 
+python gen_gv_hotsax.py 700
 
 ## run
 mkdir output
