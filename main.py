@@ -539,14 +539,19 @@ if __name__ == "__main__":
         ctx['fft_win_size'] = fft_win_size
 
         ctx['hs_win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300]
-        if fft_win_size <= 50:
+        if fft_win_size <= 25:
             ctx['hs_win_size_l'] = [25, 50, 75, 100, 125, 150]
+        elif fft_win_size <= 50:
+            ctx['hs_win_size_l'] = [25, 50, 75, 100, 125, 150]
+        elif fft_win_size <= 100:
+            ctx['hs_win_size_l'] = [100, 125, 150, 175, 200]
         elif fft_win_size <= 150:
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200]
         elif fft_win_size <= 250:
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250]
         elif fft_win_size <= 350:
             ctx['hs_win_size_l'] = [100, 125, 150]
+            #ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400]
         elif fft_win_size <= 450:
             ctx['hs_win_size_l'] = [25, 50, 75]
         elif fft_win_size <= 550:
@@ -559,8 +564,13 @@ if __name__ == "__main__":
 
 
         ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
-        if fft_win_size <= 50:
+        if fft_win_size <= 25:
+            #ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250]
+            ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175]
+        elif fft_win_size <= 50:
             ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250]
+        elif fft_win_size <= 100:
+            ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400]
         elif fft_win_size <= 150:
             ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400]
         elif fft_win_size <= 250:
@@ -593,5 +603,5 @@ if __name__ == "__main__":
 
         finish(ctx, file_no, ctx['outlier_pos'])
 
-        #visualize(ctx)
+        visualize(ctx)
     of.close()

@@ -1,2 +1,3 @@
+cmake
 pyscamp==0.5.1
 luminol==0.4

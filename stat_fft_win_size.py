@@ -34,7 +34,7 @@ if __name__ == "__main__":
         test = all_data[train_size:].copy()
 
         fft_win = cal_window_size(train)
-        if fft_win <= 550 and fft_win > 450: 
+        if fft_win <= 150 and fft_win > 100: 
             print(file_no, fft_win)
 
         for slot in slot_list:

@@ -1,12 +1,20 @@
 # kdd2021
 
-## prepare
+## Requirements
+
+Run on Windows 10 with CUDA and WSL(Windows Subsystem for Linux)
+
+## Prepare
 ```
+install Visual Studio 2019 with Visual C++
+
 install jdk 1.8
 
 install maven 3.6.0
 
 install python 3.7.0
+
+install pip
 ```
 
 mkdir -p ml/tsad/
@@ -43,7 +51,7 @@ python gen_right_format_samples.py
 
 rm -rf samples_tmp
 
-## prepare train-only and test-only data
+## Prepare train-only and test-only data
 mkdir only_train_input
 
 mkdir only_test_input
@@ -52,14 +60,14 @@ python gen_train_input.py
 
 python gen_test_input.py
 
-## prepare luminol result
+## Prepare luminol result
 mkdir lu_dd_output
 
 mkdir lu_dd_output/0.2
 
 python gen_lu_dd_02.py
 
-## prepare hotsax result
+## Prepare hotsax result
 git clone git@github.com:ralgond/grammarviz2_src.git
 
 cd grammarviz2_src
@@ -114,7 +122,7 @@ python gen_gv_hotsax.py 650
 
 python gen_gv_hotsax.py 700
 
-## run
+## Run
 mkdir output
 
 python main.py 1
