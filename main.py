@@ -149,8 +149,11 @@ class WinData:
 
         self.hs = None
 
-    def gen_mp(self, train_size, train, test, fft_win_size):
+    def gen_mp(self, all_data, train_size, train, test, fft_win_size):
         _, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
+
+        #_, _, self.mp = mp_detect_selfjoin(all_data, self.win_size)
+        #self.mp = self.mp[train_size:].copy()
 
         k = 3
         factor = 0.9
@@ -193,7 +196,7 @@ def prepare(ctx):
     win_data_l = []
     for win_size in win_size_l:
         wd = WinData(win_size)
-        wd.gen_mp(train_size, train, test, fft_win_size)
+        wd.gen_mp(all_data, train_size, train, test, fft_win_size)
         win_data_l.append(wd)
     ctx['win_data_l'] = win_data_l
 
@@ -534,6 +537,10 @@ if __name__ == "__main__":
         train = all_data[:train_size].copy()
         test = all_data[train_size:].copy()
 
+        ctx['all_data'] = all_data
+        ctx['train'] = train
+        ctx['test'] = test
+
         fft_win_size = cal_window_size(train)
 
         ctx['fft_win_size'] = fft_win_size
@@ -548,7 +555,7 @@ if __name__ == "__main__":
         elif fft_win_size <= 150:
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200]
         elif fft_win_size <= 250:
-            ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250]
+            ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300]
         elif fft_win_size <= 350:
             ctx['hs_win_size_l'] = [100, 125, 150]
             #ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400]
@@ -574,7 +581,7 @@ if __name__ == "__main__":
         elif fft_win_size <= 150:
             ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400]
         elif fft_win_size <= 250:
-            ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400]
+            ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400, 450, 500]
         elif fft_win_size <= 350:
             ctx['win_size_l'] = [25, 50, 75, 100, 125]
         elif fft_win_size <= 450:
@@ -586,9 +593,7 @@ if __name__ == "__main__":
         else:
             ctx['win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400]      
 
-        ctx['all_data'] = all_data
-        ctx['train'] = train
-        ctx['test'] = test
+        
 
         prepare(ctx)
 
