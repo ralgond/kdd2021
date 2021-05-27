@@ -122,6 +122,49 @@ python gen_gv_hotsax.py 650
 
 python gen_gv_hotsax.py 700
 
+## Prepare RRA result
+mkdir gv_rra_output
+
+cd gv_rra_output
+
+mkdir 100 125 150 200 25 300 350 400 450 50 500 550 600 75
+
+cd ..
+
+python gen_gv_rra.py 25
+
+python gen_gv_rra.py 50
+
+python gen_gv_rra.py 75
+
+python gen_gv_rra.py 100
+
+python gen_gv_rra.py 125
+
+python gen_gv_rra.py 150
+
+python gen_gv_rra.py 175
+
+python gen_gv_rra.py 200
+
+python gen_gv_rra.py 225
+
+python gen_gv_rra.py 250
+
+python gen_gv_rra.py 300
+
+python gen_gv_rra.py 350
+
+python gen_gv_rra.py 400
+
+python gen_gv_rra.py 450
+
+python gen_gv_rra.py 500
+
+python gen_gv_rra.py 550
+
+python gen_gv_rra.py 600
+
 ## Run
 mkdir output
 
