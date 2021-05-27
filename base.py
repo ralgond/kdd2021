@@ -84,7 +84,7 @@ def read_rra(win_size, file_no):
             l.append(int(pos))
     return l
 
-def read_hotsax(win_size, file_no):
+def read_hotsax_test(win_size, file_no):
     file_path = os.path.join("gv_hotsax_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
     if not os.path.exists(file_path):
         return None
@@ -93,6 +93,18 @@ def read_hotsax(win_size, file_no):
         if line.startswith("discord "):
             pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
             l.append(int(pos))
+    return l
+
+def read_hotsax_all(win_size, file_no, train_size):
+    file_path = os.path.join("gv_hotsax_all_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
+    if not os.path.exists(file_path):
+        return None
+    l = []
+    for line in open(file_path):
+        if line.startswith("discord "):
+            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
+            if int(pos) >= train_size:
+                l.append(int(pos) - train_size)
     return l
 
 

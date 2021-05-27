@@ -25,9 +25,11 @@ class Cluster:
         self.has_lu = False
         self.mp_d = {}
         self.hs_d = {}
+        self.rra_d = {}
 
         self.mp_cnt = 0
         self.hs_cnt = 0
+        self.rra_cnt = 0
 
         self._update_LRH(node)
     
@@ -73,6 +75,10 @@ class Cluster:
         if node.type == 'hs':
             self.hs_d[node.win_size] = 1
             self.hs_cnt += 1
+
+        if node.type == 'rra':
+            self.rra_d[node.win_size] = 1
+            self.rra_cnt += 1
 
     def __str__(self):
         n_l_str = '['+','.join([str(n) for n in self.node_list])+']'
@@ -150,10 +156,13 @@ class WinData:
         self.hs = None
 
     def gen_mp(self, all_data, train_size, train, test, fft_win_size):
-        _, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
+        #_, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
 
-        #_, _, self.mp = mp_detect_selfjoin(all_data, self.win_size)
-        #self.mp = self.mp[train_size:].copy()
+        if fft_win_size <= 25:
+            _, _, self.mp = mp_detect_selfjoin(all_data, self.win_size)
+            self.mp = self.mp[train_size:].copy()
+        else:
+            _, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
 
         k = 3
         factor = 0.9
@@ -181,7 +190,15 @@ class HotsaxData:
         self.hs = None
 
     def gen_hs(self, file_no):
-        self.hs = read_hotsax(self.win_size, file_no)
+        self.hs = read_hotsax_test(self.win_size, file_no)
+
+class RRAData:
+    def __init__(self, win_size):
+        self.win_size = win_size
+        self.rra = None
+
+    def gen_hs(self, file_no):
+        self.rra = read_rra(self.win_size, file_no)
 
 
 def prepare(ctx):
@@ -208,6 +225,14 @@ def prepare(ctx):
         hs_win_data_l.append(hd)
     ctx['hs_win_data_l'] = hs_win_data_l
 
+    rra_win_data_l = []
+    rra_win_size_l = ctx['rra_win_size_l']
+    for win_size in rra_win_size_l:
+        rd = RRAData(win_size)
+        rd.gen_hs(file_no)
+        rra_win_data_l.append(rd)
+    ctx['rra_win_data_l'] = rra_win_data_l
+
     
     lu_score_l = read_lu_dd_02(file_no)
     ctx['lu_score'] = lu_score_l
@@ -232,6 +257,7 @@ def mp_cluster(ctx):
     fft_win_size = ctx['fft_win_size']
     win_data_l = ctx['win_data_l']
     hs_win_data_l = ctx['hs_win_data_l']
+    rra_win_data_l = ctx['rra_win_data_l']
 
     distance_threshold = (fft_win_size//100 + 1)*100
     if distance_threshold < 100: distance_threshold = 100
@@ -254,6 +280,11 @@ def mp_cluster(ctx):
 
     for hd in hs_win_data_l:
         node = Node(hd.win_size, hd.hs[0] + train_size, "hs")
+        _mp_cluster_add_node(cluster_l, node, fft_win_size, distance_threshold)
+
+    for rd in rra_win_data_l:
+        print ("rd.win_size:",rd.win_size)
+        node = Node(rd.win_size, rd.rra[0] + train_size, "rra")
         _mp_cluster_add_node(cluster_l, node, fft_win_size, distance_threshold)
 
     
@@ -400,6 +431,18 @@ def select_outlier_pos(ctx):
             ctx['outlier_pos_color'] = "red"
             return
 
+    # check hs,rra,mp
+    if fft_win_size <= 25:
+        found_c = None
+        for c in cluster_l:
+            if c.hs_cnt > 0 and c.rra_cnt > 0 and c.mp_cnt >= 4:
+                found_c = c
+                break
+        print("[check hs,rra,mp] found_c:", found_c)
+        if found_c is not None:
+            ctx['outlier_pos'] = found_c.get_mean_pos()
+            return
+
     _adjust_pos_cause_lu(ctx, max_cluster)
 
 
@@ -431,11 +474,13 @@ def visualize(ctx):
     win_size_l = ctx['win_size_l']
 
     hs_win_size_l = ctx['hs_win_size_l']
+
+    rra_win_data_l = ctx['rra_win_data_l']
     
     fft_win_size = ctx['fft_win_size']
     
 
-    subfigure_count = len(win_size_l) + len(hs_win_size_l) + 2 + 1 # train, test, lu, hs, rra
+    subfigure_count = len(win_size_l) + len(hs_win_size_l) + len(rra_win_data_l) + 2 + 1 # train, test, lu, hs, rra
 
     plt.cla()
     plt.subplot(subfigure_count, 1, 1)
@@ -455,6 +500,16 @@ def visualize(ctx):
             plt.ylabel(f"h{hd.win_size}", rotation=0, ha='right')
             plt.plot([i for i in range(len(all_data))], zl(len(all_data)))
             plt.axvline(hd.hs[0] + train_size, color="black")
+            plt.yticks([])
+            fig_no += 1
+
+    rra_win_data_l = ctx['rra_win_data_l']
+    for rd in rra_win_data_l:
+        if rd.rra is not None:
+            plt.subplot(subfigure_count, 1, fig_no)
+            plt.ylabel(f"r{rd.win_size}", rotation=0, ha='right')
+            plt.plot([i for i in range(len(all_data))], zl(len(all_data)))
+            plt.axvline(rd.rra[0] + train_size, color="black")
             plt.yticks([])
             fig_no += 1
 
@@ -570,6 +625,12 @@ if __name__ == "__main__":
             ctx['hs_win_size_l'] = [100, 125, 150, 175, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700]
 
 
+        ctx['rra_win_size_l'] = [50, 75, 100, 150, 200, 300]
+        if fft_win_size <= 25:
+            ctx['rra_win_size_l'] = [50, 75]
+        else:
+            ctx['rra_win_size_l'] = []
+
         ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600]
         if fft_win_size <= 25:
             #ctx['win_size_l'] = [25, 50, 75, 100, 125, 150, 175, 200, 250]
@@ -608,5 +669,5 @@ if __name__ == "__main__":
 
         finish(ctx, file_no, ctx['outlier_pos'])
 
-        visualize(ctx)
+        #visualize(ctx)
     of.close()
