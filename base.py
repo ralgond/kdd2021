@@ -50,6 +50,14 @@ def luminol_detect_dd(ts, smoothing_factor=None):
     anomaly_score_l = [value for timestamp, value in my_detector.get_all_scores().iteritems()]
     return anomaly_score_l
 
+def luminol_detect_df(ts):
+    ts2 = {}
+    for idx,value in enumerate(ts):
+        ts2[idx] = value
+    my_detector = AnomalyDetector(ts2)
+    anomaly_score_l = [value for timestamp, value in my_detector.get_all_scores().iteritems()]
+    return anomaly_score_l
+
 
 def read_train_test(file_path, train_size):
     train = []
@@ -64,9 +72,29 @@ def read_train_test(file_path, train_size):
 def zl(length):
     return [0 for i in range(length)]
 
+def read_lu_df(file_no):
+    file_path = os.path.join("lu_df_output", str(file_no)+".txt")
+    lu_score_l = []
+    for line in open(file_path):
+        lu_score_l.append(float(line.strip()))
+    return lu_score_l
+
+def read_lu_dd_01(file_no):
+    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.1", str(file_no)+".txt")
+    lu_score_l = []
+    for line in open(file_path):
+        lu_score_l.append(float(line.strip()))
+    return lu_score_l
 
 def read_lu_dd_02(file_no):
     file_path = os.path.join("lu_dd_output"+os.path.sep+"0.2", str(file_no)+".txt")
+    lu_score_l = []
+    for line in open(file_path):
+        lu_score_l.append(float(line.strip()))
+    return lu_score_l
+
+def read_lu_dd_05(file_no):
+    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.5", str(file_no)+".txt")
     lu_score_l = []
     for line in open(file_path):
         lu_score_l.append(float(line.strip()))
@@ -114,6 +142,9 @@ def to50fold(n):
 
 def to25fold(n):
     return (int(n) // 25 + 1) * 25
+
+def isin(a, min, max):
+    return a <= max and a > min
 
 if __name__ == "__main__":
     print (read_hotsax(8))

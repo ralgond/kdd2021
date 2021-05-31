@@ -158,7 +158,7 @@ class WinData:
     def gen_mp(self, all_data, train_size, train, test, fft_win_size):
         #_, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
 
-        if fft_win_size <= 25:
+        if fft_win_size <= 25 or isin(fft_win_size, 350, 450):
             _, _, self.mp = mp_detect_selfjoin(all_data, self.win_size)
             self.mp = self.mp[train_size:].copy()
         else:
@@ -646,7 +646,7 @@ if __name__ == "__main__":
         elif fft_win_size <= 350:
             ctx['win_size_l'] = [25, 50, 75, 100, 125]
         elif fft_win_size <= 450:
-            ctx['win_size_l'] = [200, 250, 300, 350, 400, 450]
+            ctx['win_size_l'] = [200, 450, 600, 800, 1000, 1500, 2000]
         elif fft_win_size <= 550:
             ctx['win_size_l'] = [500, 550, 600, 650, 700, 750, 800, 900, 1000]
         elif fft_win_size <= 1600:
