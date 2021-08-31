@@ -1,8 +1,8 @@
-python gen_gv_hotsax.py 25
-python gen_gv_hotsax.py 50
-python gen_gv_hotsax.py 75
-python gen_gv_hotsax.py 100
-python gen_gv_hotsax.py 125
+#python gen_gv_hotsax.py 25
+#python gen_gv_hotsax.py 50
+#python gen_gv_hotsax.py 75
+#python gen_gv_hotsax.py 100
+#python gen_gv_hotsax.py 125
 python gen_gv_hotsax.py 150
 python gen_gv_hotsax.py 175
 python gen_gv_hotsax.py 200
