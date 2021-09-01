@@ -1,5 +1,5 @@
 import os
-import pyscamp as mp
+
 import numpy as np
 from scipy.fftpack import fft,ifft
 
@@ -29,15 +29,24 @@ def cal_window_size(timeseries):
 def get_train_size_from_filename(filename):
     return int(filename.split('_')[-1].split('.')[0])
 
-def mp_detect_selfjoin(ts, win_size):
-    profile, index = mp.selfjoin(ts, win_size)
-    max_index = np.argmax(profile)
-    return profile[max_index], max_index, profile
 
-def mp_detect_abjoin(ts, query, win_size):
-    profile, index = mp.abjoin(ts, query, win_size)
-    max_index = np.argmax(profile)
-    return profile[max_index], max_index, profile
+def topk(s, k, win_size):
+    ret = []
+    s = np.array(s).copy()
+
+    for _ in range(k):
+        max_value_idx = np.argmax(s)
+        if s[max_value_idx] == -np.inf:
+            break
+
+        ret.append(max_value_idx)
+
+        left = max(0, int(max_value_idx-win_size))
+        right = min(len(s), int(max_value_idx+win_size))
+        s[left:right] = -np.inf
+    
+    return ret
+
 
 def luminol_detect_dd(ts, smoothing_factor=None):
     ts2 = {}

@@ -67,6 +67,8 @@ mkdir lu_dd_output/0.2
 
 python gen_lu_dd_02.py
 
+python gen_lu_dd_02_top2.py
+
 ## Prepare hotsax result
 git clone git@github.com:ralgond/grammarviz2_src.git
 
@@ -78,98 +80,20 @@ cd ..
 
 mkdir gv_hotsax_output
 
-cd gv_hotsax_output/
-
-mkdir 100 125 150 175 200 225 25 250 300 350 400 450 50 500 550 600 650 75 700 750 800
-
-cd ..
-
-python gen_gv_hotsax.py 25
-
-python gen_gv_hotsax.py 50
-
-python gen_gv_hotsax.py 75
-
-python gen_gv_hotsax.py 100
-
-python gen_gv_hotsax.py 125
-
-python gen_gv_hotsax.py 150
-
-python gen_gv_hotsax.py 175
-
-python gen_gv_hotsax.py 200
-
-python gen_gv_hotsax.py 225
-
-python gen_gv_hotsax.py 250
-
-python gen_gv_hotsax.py 300
-
-python gen_gv_hotsax.py 350
-
-python gen_gv_hotsax.py 400
-
-python gen_gv_hotsax.py 450
-
-python gen_gv_hotsax.py 500
-
-python gen_gv_hotsax.py 550
-
-python gen_gv_hotsax.py 600
-
-python gen_gv_hotsax.py 650
-
-python gen_gv_hotsax.py 700
+./batch_gen_gv_hotsax.sh
 
 ## Prepare RRA result
 mkdir gv_rra_output
 
-cd gv_rra_output
+./batch_gen_gv_rra.sh
 
-mkdir 100 125 150 200 25 300 350 400 450 50 500 550 600 75
+## Prepare mp_abjoin result
+batch_gen_mp_abjoin.bat
 
-cd ..
-
-python gen_gv_rra.py 25
-
-python gen_gv_rra.py 50
-
-python gen_gv_rra.py 75
-
-python gen_gv_rra.py 100
-
-python gen_gv_rra.py 125
-
-python gen_gv_rra.py 150
-
-python gen_gv_rra.py 175
-
-python gen_gv_rra.py 200
-
-python gen_gv_rra.py 225
-
-python gen_gv_rra.py 250
-
-python gen_gv_rra.py 300
-
-python gen_gv_rra.py 350
-
-python gen_gv_rra.py 400
-
-python gen_gv_rra.py 450
-
-python gen_gv_rra.py 500
-
-python gen_gv_rra.py 550
-
-python gen_gv_rra.py 600
+## Prepare self_abjoin result
+batch_gen_mp_selfjoin.bat
 
 ## Run
-mkdir output
+mkdir -p output
 
-python main.py 1
-
-```
-output/main.csv is the result
-```
+python main2.py
