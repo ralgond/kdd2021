@@ -1,3 +1,4 @@
 cmake
 pyscamp==0.5.1
 luminol==0.4
+rolling==0.2.0

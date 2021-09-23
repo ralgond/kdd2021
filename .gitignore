@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # By ralgond
+interdata/
 samples/
 output/
 *_output/

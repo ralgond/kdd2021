@@ -97,3 +97,7 @@ batch_gen_mp_selfjoin.bat
 mkdir -p output
 
 python main2.py
+
+```
+The result file is output/main2.csv
+```

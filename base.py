@@ -1,9 +1,25 @@
 import os
+import sys
+import math
 
 import numpy as np
 from scipy.fftpack import fft,ifft
 
 from luminol.anomaly_detector import AnomalyDetector
+
+def diff(ts):
+    ret = []
+    ret.append(float("nan"))
+    for idx, v in enumerate(ts):
+        if idx == 0: 
+            continue
+        v = float(v)
+        if math.isnan(v):
+            ret.append(v)
+            continue
+        delta = v - ts[idx-1]
+        ret.append(delta)
+    return ret
 
 def cal_window_size(timeseries):
     yf = abs(fft(timeseries))  # 取绝对值
@@ -35,7 +51,7 @@ def topk(s, k, win_size):
     s = np.array(s).copy()
 
     for _ in range(k):
-        max_value_idx = np.argmax(s)
+        max_value_idx = np.nanargmax(s)
         if s[max_value_idx] == -np.inf:
             break
 
@@ -156,4 +172,4 @@ def isin(a, min, max):
     return a <= max and a > min
 
 if __name__ == "__main__":
-    print (read_hotsax(8))
+    pass
