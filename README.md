@@ -67,37 +67,21 @@ mkdir lu_dd_output/0.2
 
 python gen_lu_dd_02.py
 
-python gen_lu_dd_02_top2.py
+## Prepare P2P result
+python gen_p2p.py 1
 
-## Prepare hotsax result
-git clone git@github.com:ralgond/grammarviz2_src.git
+## Prepare STD result
+python gen_diff_std.py 1
+python gen_acc_std.py 1
 
-cd grammarviz2_src
-
-mvn package -Psingle
-
-cd ..
-
-mkdir gv_hotsax_output
-
-./batch_gen_gv_hotsax.sh
-
-## Prepare RRA result
-mkdir gv_rra_output
-
-./batch_gen_gv_rra.sh
-
-## Prepare mp_abjoin result
-batch_gen_mp_abjoin.bat
-
-## Prepare self_abjoin result
-batch_gen_mp_selfjoin.bat
+## Prepare mp result
+python gen_mp.py 1
 
 ## Run
 mkdir -p output
 
-python main2.py
+python main3.py 1
 
 ```
-The result file is output/main2.csv
+The result file is output/main3.csv
 ```
