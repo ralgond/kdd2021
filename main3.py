@@ -129,7 +129,7 @@ def deal_one(file_no, train_size):
         add_scorepos(scorepos_l, scorepos, fn)
 
     for d in os.listdir(path1):
-        fn = f"{path1}/{d}/p2p_orig.txt"
+        fn = f"{path1}/{d}/orig_p2p.txt"
         win_size = int(d)
         profile = read_score(fn)
         profile = moving_avg(profile, win_size)
@@ -139,7 +139,7 @@ def deal_one(file_no, train_size):
         # -inv is not work
 
     for d in os.listdir(path1):
-        fn = f"{path1}/{d}/p2p_diff.txt"
+        fn = f"{path1}/{d}/diff_p2p.txt"
         win_size = int(d)
         profile = read_score(fn)
         profile = moving_avg(profile, win_size)
@@ -149,7 +149,7 @@ def deal_one(file_no, train_size):
         # -inv is not work
 
     for d in os.listdir(path1):
-        fn = f"{path1}/{d}/p2p_acc.txt"
+        fn = f"{path1}/{d}/acc_p2p.txt"
         win_size = int(d)
         profile = read_score(fn)
         profile = moving_avg(profile, win_size)

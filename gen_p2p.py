@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
             max_list = list(rolling.Max(test, ws))
             min_list = list(rolling.Min(test, ws))
-            output_path = f"{path2}\p2p_orig.txt"
+            output_path = f"{path2}\orig_p2p.txt"
             of = open(output_path, "w+")
             for idx, max_score in enumerate(max_list):
                 of.write(f"{max_score-min_list[idx]}\n")
@@ -40,7 +40,7 @@ if __name__ == "__main__":
             diff_l = diff(test)
             max_list = list(rolling.Max(diff_l, ws))
             min_list = list(rolling.Min(diff_l, ws))
-            output_path = f"{path2}\p2p_diff.txt"
+            output_path = f"{path2}\diff_p2p.txt"
             of = open(output_path, "w+")
             for idx, max_score in enumerate(max_list):
                 of.write(f"{max_score-min_list[idx]}\n")
@@ -49,7 +49,7 @@ if __name__ == "__main__":
             acc_l = diff(diff_l)
             max_list = list(rolling.Max(acc_l, ws))
             min_list = list(rolling.Min(acc_l, ws))
-            output_path = f"{path2}\p2p_acc.txt"
+            output_path = f"{path2}\acc_p2p.txt"
             of = open(output_path, "w+")
             for idx, max_score in enumerate(max_list):
                 of.write(f"{max_score-min_list[idx]}\n")
