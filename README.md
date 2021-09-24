@@ -72,10 +72,15 @@ python gen_p2p.py 1
 
 ## Prepare STD result
 python gen_diff_std.py 1
+
 python gen_acc_std.py 1
 
-## Prepare mp result
+## Prepare MP result
 python gen_mp.py 1
+
+python gen_diff_mp_selfjoin.py 1
+
+python gen_acc_mp_selfjoin.py 1
 
 ## Run
 mkdir -p output
