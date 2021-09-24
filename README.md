@@ -80,7 +80,11 @@ python gen_mp.py 1
 
 python gen_diff_mp_selfjoin.py 1
 
+python gen_diff_mp_abjoin.py 1
+
 python gen_acc_mp_selfjoin.py 1
+
+python gen_acc_mp_abjoin.py 1
 
 ## Run
 mkdir -p output

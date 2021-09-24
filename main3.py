@@ -228,6 +228,22 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
+    for d in os.listdir(path1):
+        fn = f"{path1}/{d}/diff_mp_abjoin.txt"
+        win_size = int(d)
+        profile, index = read_matrix_profile_from_file(fn)
+        profile = moving_avg(profile, win_size)
+        scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
+        add_scorepos(scorepos_l, scorepos, fn)
+
+    for d in os.listdir(path1):
+        fn = f"{path1}/{d}/acc_mp_abjoin.txt"
+        win_size = int(d)
+        profile, index = read_matrix_profile_from_file(fn)
+        profile = moving_avg(profile, win_size)
+        scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
+        add_scorepos(scorepos_l, scorepos, fn)
+
     # mad does not work.
 
 
