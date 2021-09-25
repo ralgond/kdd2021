@@ -90,25 +90,25 @@ def add_scorepos(scorepos_l, scorepos, reason):
         scorepos.reason = reason
 
 def deal_one(file_no, train_size):
-    fn = f"lu_dd_output/0.2/{file_no}.txt"
-    scorepos = lu_try_get_one_peek(fn, train_size)
-    if scorepos is not None:
-        scorepos.reason = "lu_one_peek/0.2"
-        print (file_no, scorepos.largest_score_idx, scorepos.reason)
-        return scorepos
+    # fn = f"lu_dd_output/0.2/{file_no}.txt"
+    # scorepos = lu_try_get_one_peek(fn, train_size)
+    # if scorepos is not None:
+    #     scorepos.reason = "lu_one_peek/0.2"
+    #     print (file_no, scorepos.largest_score_idx, scorepos.reason)
+    #     return scorepos
 
     scorepos = None
 
     scorepos_l = []
 
-    for d in os.listdir("lu_dd_output"):
-        fn = f"lu_dd_output/{d}/{file_no}.txt"
-        l = read_score(fn)
-        win_size = cal_window_size(l)
-        if win_size > 800:
-            win_size = 800
-        scorepos = score_list_2_scorepos(l, win_size, train_size, add_train_size=True)
-        add_scorepos(scorepos_l, scorepos, f"lu_dd/{d}")
+    # for d in os.listdir("lu_dd_output"):
+    #     fn = f"lu_dd_output/{d}/{file_no}.txt"
+    #     l = read_score(fn)
+    #     win_size = cal_window_size(l)
+    #     if win_size > 800:
+    #         win_size = 800
+    #     scorepos = score_list_2_scorepos(l, win_size, train_size, add_train_size=True)
+    #     add_scorepos(scorepos_l, scorepos, f"lu_dd/{d}")
 
     path1 = f"interdata/{file_no}"
 
