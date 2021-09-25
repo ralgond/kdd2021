@@ -1,5 +1,11 @@
 # kdd2021
 
+## Final Score and The Rank of Me
+
+My rank is 14 and the score is 75.2, the certificate is [here](https://compete.hexagon-ml.com/certificate/giJUy/), and the code is [here](https://github.com/ralgond/kdd2021/releases/tag/v75.2).
+
+I am still trying to boost my score, and now I have boosted my score to 81.6, the code is [here](https://github.com/ralgond/kdd2021/releases/tag/v81.6).
+
 ## Requirements
 
 Run on Windows 10 with CUDA
