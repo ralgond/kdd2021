@@ -129,7 +129,10 @@ dmypy.json
 .pyre/
 
 # By ralgond
+main3_*
+fcm/
 interdata/
+loess/
 samples/
 output/
 *_output/

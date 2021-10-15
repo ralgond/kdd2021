@@ -1,16 +1,17 @@
 import os
 import sys
+import math
+
+import rolling
 
 from base import *
-from base_mp import *
 from base_win_size_l import *
+from base_mp import *
 
-import numpy as np
-
-def nmp(profile, output_path):
+def mp(profile, index, output_path):
     of = open(output_path, "w+")
     for idx, mp_score in enumerate(profile):
-        of.write(f"{mp_score}\n")
+        of.write(f"{mp_score},{index[idx]}\n")
 
     of.close()
 
@@ -27,7 +28,12 @@ if __name__ == "__main__":
 
         train, test = read_train_test(fp, train_size)
 
-        print (file_no)
+        print(file_no)
+
+        if file_no in [239,240,241]:
+            continue
+
+        test_diff = diff(test)
 
         path1 = f"interdata\{file_no}"
         os.system("md " + path1)
@@ -36,17 +42,14 @@ if __name__ == "__main__":
             path2 = f"{path1}\{ws}"
             os.system("md " + path2)
 
-            test_profile, test_index = mp2_abjoin(test, train, ws)
-            max_idx = np.argmax(test_index)
-            print (f"test_index.len={len(test_index)}, maxvalue={test_index[max_idx]}")
+            test_profile, test_index = mp2_selfjoin(test_diff, ws)
             
-
-            train_profile, train_index = mp2_selfjoin(train, ws)
-
-            d_z = []
-            for idx, d in enumerate(test_profile):
-                d_idx = test_index[idx]
-                z = train_profile[d_idx]
-                d_z.append(d/z)
-        
-            nmp(d_z, f"{path2}\\nmp.txt")
+            output_path = f"{path2}\\diff_mp_selfjoin_normalized.txt"
+            of = open(output_path, "w+")
+            for (d, idx) in zip(test_profile, test_index):
+                z = test_profile[idx]
+                try:
+                    of.write(f"{d/z}\n")
+                except Exception as e:
+                    of.write("0\n")
+            of.close()

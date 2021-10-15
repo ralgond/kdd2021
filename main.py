@@ -159,10 +159,10 @@ class WinData:
         #_, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
 
         if fft_win_size <= 25 or isin(fft_win_size, 350, 450):
-            _, _, self.mp = mp_detect_selfjoin(all_data, self.win_size)
+            _, _, self.mp = mp2_selfjoin(all_data, self.win_size)
             self.mp = self.mp[train_size:].copy()
         else:
-            _, _, self.mp = mp_detect_abjoin(test, train, self.win_size)
+            _, _, self.mp = mp2_abjoin(test, train, self.win_size)
 
         k = 3
         factor = 0.9

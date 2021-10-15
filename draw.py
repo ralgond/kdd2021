@@ -18,6 +18,12 @@ if __name__ == "__main__":
         file_no, ab_index = line.strip().split(',')
         ab_index_d2[int(file_no)] = int(ab_index)
 
+    ab_index_d3 = {}
+    for idx, line in enumerate(open("output/main3_loess.csv")):
+        if idx == 0: continue
+        file_no, ab_index = line.strip().split(',')
+        ab_index_d3[int(file_no)] = int(ab_index)
+
     
     from_file_no = int(sys.argv[1])
 
@@ -38,6 +44,7 @@ if __name__ == "__main__":
 
         ab_index_1 = ab_index_d1[file_no]
         ab_index_2 = ab_index_d2[file_no]
+        ab_index_3 = ab_index_d3[file_no]
 
         #plt.cla()
         plt.figure(figsize=(10,1))
@@ -45,5 +52,6 @@ if __name__ == "__main__":
         plt.plot([i for i in range(len(all_data))], all_data, color="gray")
         plt.axvline(ab_index_1, color="red")
         plt.axvline(ab_index_2, color="blue")
+        plt.axvline(ab_index_3, color="green")
         plt.show()
 

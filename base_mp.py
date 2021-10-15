@@ -10,15 +10,15 @@ def mp2_abjoin(ts, query, win_size):
     return profile, index
 
 import stumpy
-def mp_selfjoin(ts, win_size):
+def mp_selfjoin(ts, win_size, normalize=True):
     ts = [v*1.0 for v in ts]
-    res = stumpy.stump(ts, win_size)
+    res = stumpy.stump(ts, win_size, normalize=normalize)
     return res[:,0], res[:,1]
 
-def mp_abjoin(ts, query, win_size):
+def mp_abjoin(ts, query, win_size, normalize=True):
     ts = [v*1.0 for v in ts]
     query = [v*1.0 for v in query]
-    res = stumpy.stump(T_B = query, T_A = ts, m = win_size, ignore_trivial = False)
+    res = stumpy.stump(T_B = query, T_A = ts, m = win_size, ignore_trivial = False, normalize=normalize)
     return res[:,0], res[:,1]
 
 def read_matrix_profile_from_file(file_path):
