@@ -5,14 +5,6 @@ from base import *
 from base_mp import *
 from base_win_size_l import *
 
-def mp_top2(max_profile, max_index, profile, index, output_path):
-    top2_idx = topk(profile, 2, ws)
-
-    of = open(output_path, "w+")
-    for idx in top2_idx:
-        of.write(f"{profile[idx]},{idx}\n")
-
-    of.close()
 
 def mp(profile, index, output_path):
     of = open(output_path, "w+")
@@ -49,12 +41,12 @@ if __name__ == "__main__":
             path2 = f"{path1}\{ws}"
             os.system("md " + path2)
 
-            #print (len(test), len(train), ws)
-            profile, index = mp2_abjoin(test, train, ws)
-            mp(profile, index, f"{path2}\\mp_abjoin.txt")
-
             profile, index = mp2_selfjoin(test, ws)
-            mp(profile, index, f"{path2}\\mp_selfjoin.txt")
+
+            of = open(f"{path2}\\mp_selfjoin.txt", "w+")
+            for idx, mp_score in enumerate(profile):
+                of.write(f"{mp_score},{index[idx]}\n")
+            of.close()
             
 
 

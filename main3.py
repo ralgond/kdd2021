@@ -7,25 +7,11 @@ from base_mp import *
 from main_base import *
 
 def deal_one(file_no, train_size):
-    # fn = f"lu_dd_output/0.2/{file_no}.txt"
-    # scorepos = lu_try_get_one_peek(fn, train_size)
-    # if scorepos is not None:
-    #     scorepos.reason = "lu_one_peek/0.2"
-    #     print (file_no, scorepos.largest_score_idx, scorepos.reason)
-    #     return scorepos
+    # lu does not work
 
     scorepos = None
 
     scorepos_l = []
-
-    # for d in os.listdir("lu_dd_output"):
-    #     fn = f"lu_dd_output/{d}/{file_no}.txt"
-    #     l = read_score(fn)
-    #     win_size = cal_window_size(l)
-    #     if win_size > 800:
-    #         win_size = 800
-    #     scorepos = score_list_2_scorepos(l, win_size, train_size, add_train_size=True)
-    #     add_scorepos(scorepos_l, scorepos, f"lu_dd/{d}")
 
     path1 = f"interdata/{file_no}"
 
@@ -57,7 +43,19 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
-        # -inv is not work
+        # orig_p2p.txt-inv does not work
+
+    # orig_mp_selfjoin_p2p.txt does not work
+
+    # orig_mp_abjoin_p2p.txt does not work
+
+    # mp_abjoin_normalized.txt does not work
+
+    # mp_selfjoin_normalized.txt does not work
+
+    # mp_allselfjoin_normalized.txt does not work
+
+    # without moving_avg the mp_abjoin_normalized.txt does not work
 
 
     #=======================================================================================
@@ -71,7 +69,7 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
-        # -inv is not work
+        # diff_p2p.txt-inv deos not work
 
     for d in os.listdir(path1):
         fn = f"{path1}/{d}/diff_std.txt"
@@ -92,8 +90,6 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile_inv, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn+"-inv")
 
-    # diff small does not work
-
     for d in os.listdir(path1):
         fn = f"{path1}/{d}/diff_mp_selfjoin.txt"
         win_size = int(d)
@@ -110,8 +106,6 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
-    # diff_mp_selfjoin_normalized.txt do not work
-
     for d in os.listdir(path1):
         fn = f"{path1}/{d}/diff_mp_abjoin_normalized.txt"
         if not os.path.exists(fn):
@@ -122,6 +116,9 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
+    # diff_small does not work
+    # diff_mp_selfjoin_normalized.txt does not work
+    # diff_mp_allselfjoin_normalized.txt does not work
 
     #=======================================================================================
     # ACC
@@ -178,11 +175,11 @@ def deal_one(file_no, train_size):
         scorepos = score_list_2_scorepos(profile, win_size, train_size, add_train_size = True)
         add_scorepos(scorepos_l, scorepos, fn)
 
-    # acc_mp_selfjoin_normalized.txt do not work
+    # acc_mp_selfjoin_normalized.txt does not work
+    # acc_mp_abjoin_normalized.txt does not work
 
 
     # mad does not work.
-
     # fcm does not work.
 
     if len(scorepos_l) == 0:

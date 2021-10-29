@@ -5,6 +5,8 @@ from base import *
 from base_mp import *
 from base_win_size_l import *
 
+import rolling
+   
 if __name__ == "__main__":
     from_file_no = int(sys.argv[1])
 
@@ -35,14 +37,19 @@ if __name__ == "__main__":
             path2 = f"{path1}\{ws}"
             os.system("md " + path2)
 
-            test_profile, test_index = mp2_selfjoin(test, ws)
+            #profile, index = mp2_selfjoin(test, ws)
+            profile, index = read_matrix_profile_from_file(f"{path2}\\mp_selfjoin.txt")
 
-            output_path = f"{path2}\\mp_selfjoin_normalized.txt"
+            max_list = list(rolling.Max(profile, ws))
+            min_list = list(rolling.Min(profile, ws))
+            output_path = f"{path2}\orig_mp_selfjoin_p2p.txt"
             of = open(output_path, "w+")
-            for (d, idx) in zip(test_profile, test_index):
-                z = test_profile[idx]
-                try:
-                    of.write(f"{d/z}\n")
-                except Exception as e:
-                    of.write("0\n")
+            for idx, max_score in enumerate(max_list):
+                of.write(f"{max_score-min_list[idx]}\n")
             of.close()
+
+
+
+
+        
+

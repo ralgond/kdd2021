@@ -36,6 +36,9 @@ for i in range(0,251):
         # os.system(f"ren {path2}\\p2p_diff.txt diff_p2p.txt")
         # os.system(f"ren {path2}\\p2p_acc.txt acc_p2p.txt")
 
-        os.system(f"del {path2}\\diff_small.txt")
-        os.system(f"del {path2}\\mp_all_selfjoin.txt")
+        # os.system(f"del {path2}\\diff_small.txt")
+        # os.system(f"del {path2}\\mp_all_selfjoin.txt")
+
+        os.system(f"del {path2}\\orig_mp_selfjoin_p2p.txt")
+        
         

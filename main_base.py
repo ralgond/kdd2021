@@ -65,7 +65,7 @@ def lu_try_get_one_peek(file_path, train_size):
     right_largest_idx = np.argmax(l[largest_idx + win_size//2:])
     right_largest_score = l[largest_idx + win_size//2:][right_largest_idx]
 
-    if largest_score * 0.8 > left_largest_score and largest_score * 0.8 > right_largest_score:
+    if largest_score * 0.5 > left_largest_score and largest_score * 0.5 > right_largest_score:
         return ScorePos(largest_score, largest_idx + train_size, 1, 1)
     else:
         return None

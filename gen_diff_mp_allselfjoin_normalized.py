@@ -28,6 +28,8 @@ if __name__ == "__main__":
         if file_no in [239,240,241]:
             continue
 
+        all_data = diff(all_data)
+
         path1 = f"interdata\{file_no}"
         os.system("md " + path1)
 
@@ -35,12 +37,12 @@ if __name__ == "__main__":
             path2 = f"{path1}\{ws}"
             os.system("md " + path2)
 
-            test_profile, test_index = mp2_selfjoin(test, ws)
+            all_data_profile, all_data_index = mp2_selfjoin(all_data, ws)
 
-            output_path = f"{path2}\\mp_selfjoin_normalized.txt"
+            output_path = f"{path2}\\diff_mp_allselfjoin_normalized.txt"
             of = open(output_path, "w+")
-            for (d, idx) in zip(test_profile, test_index):
-                z = test_profile[idx]
+            for (d, idx) in zip(all_data_profile, all_data_index):
+                z = all_data_profile[idx]
                 try:
                     of.write(f"{d/z}\n")
                 except Exception as e:
