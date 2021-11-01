@@ -5,8 +5,6 @@ import math
 import numpy as np
 from scipy.fftpack import fft,ifft
 
-from luminol.anomaly_detector import AnomalyDetector
-
 def diff(ts):
     ret = []
     ret.append(float("nan"))
@@ -63,113 +61,29 @@ def topk(s, k, win_size):
     
     return ret
 
-
-def luminol_detect_dd(ts, smoothing_factor=None):
-    ts2 = {}
-    for idx,value in enumerate(ts):
-        ts2[idx] = value
-    ap = {}
-    if smoothing_factor is not None:
-        ap['smoothing_factor'] = smoothing_factor
-    my_detector = AnomalyDetector(ts2, algorithm_name="derivative_detector", algorithm_params=ap)
-    anomaly_score_l = [value for timestamp, value in my_detector.get_all_scores().iteritems()]
-    return anomaly_score_l
-
-def luminol_detect_df(ts):
-    ts2 = {}
-    for idx,value in enumerate(ts):
-        ts2[idx] = value
-    my_detector = AnomalyDetector(ts2)
-    anomaly_score_l = [value for timestamp, value in my_detector.get_all_scores().iteritems()]
-    return anomaly_score_l
-
-
-def read_train_test(file_path, train_size):
-    train = []
-    test = []
-    for idx, line in enumerate(open(file_path)):
-        if idx < train_size:
-            train.append(float(line.strip()))
-        else:
-            test.append(float(line.strip()))
-    return train, test
-
 def zl(length):
     return [0 for i in range(length)]
 
-def read_lu_df(file_no):
-    file_path = os.path.join("lu_df_output", str(file_no)+".txt")
-    lu_score_l = []
-    for line in open(file_path):
-        lu_score_l.append(float(line.strip()))
-    return lu_score_l
+import pyscamp as mp
+import numpy as np
 
-def read_lu_dd_01(file_no):
-    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.1", str(file_no)+".txt")
-    lu_score_l = []
-    for line in open(file_path):
-        lu_score_l.append(float(line.strip()))
-    return lu_score_l
+def mp2_selfjoin(ts, win_size):
+    profile, index = mp.selfjoin(ts, win_size)
+    return profile, index
 
-def read_lu_dd_02(file_no):
-    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.2", str(file_no)+".txt")
-    lu_score_l = []
-    for line in open(file_path):
-        lu_score_l.append(float(line.strip()))
-    return lu_score_l
+def mp2_abjoin(ts, query, win_size):
+    profile, index = mp.abjoin(ts, query, win_size)
+    return profile, index
 
-def read_lu_dd_05(file_no):
-    file_path = os.path.join("lu_dd_output"+os.path.sep+"0.5", str(file_no)+".txt")
-    lu_score_l = []
-    for line in open(file_path):
-        lu_score_l.append(float(line.strip()))
-    return lu_score_l
+import stumpy
+def mp_selfjoin(ts, win_size, normalize=True):
+    ts = [v*1.0 for v in ts]
+    res = stumpy.stump(ts, win_size, normalize=normalize)
+    return res[:,0], res[:,1]
 
+def mp_abjoin(ts, query, win_size, normalize=True):
+    ts = [v*1.0 for v in ts]
+    query = [v*1.0 for v in query]
+    res = stumpy.stump(T_B = query, T_A = ts, m = win_size, ignore_trivial = False, normalize=normalize)
+    return res[:,0], res[:,1]
 
-def read_rra(win_size, file_no):
-    file_path = os.path.join("gv_rra_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
-    if not os.path.exists(file_path):
-        return None
-    l = []
-    for line in open(file_path):
-        if line.startswith("discord "):
-            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
-            l.append(int(pos))
-    return l
-
-def read_hotsax_test(win_size, file_no):
-    file_path = os.path.join("gv_hotsax_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
-    if not os.path.exists(file_path):
-        return None
-    l = []
-    for line in open(file_path):
-        if line.startswith("discord "):
-            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
-            l.append(int(pos))
-    return l
-
-def read_hotsax_all(win_size, file_no, train_size):
-    file_path = os.path.join("gv_hotsax_all_output"+os.path.sep+f'{win_size}', str(file_no)+".txt")
-    if not os.path.exists(file_path):
-        return None
-    l = []
-    for line in open(file_path):
-        if line.startswith("discord "):
-            pos = line.strip().split("position")[1].split()[0].strip().split(',')[0]
-            if int(pos) >= train_size:
-                l.append(int(pos) - train_size)
-    return l
-
-
-def to50fold(n):
-    return (int(n) // 50 + 1) * 50
-
-
-def to25fold(n):
-    return (int(n) // 25 + 1) * 25
-
-def isin(a, min, max):
-    return a <= max and a > min
-
-if __name__ == "__main__":
-    pass

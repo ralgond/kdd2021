@@ -40,23 +40,6 @@ def test06():
     s = pd.Series(l)
     print(s.rolling(3).std())
 
-from base_math import *
-def test07():
-    l = [1, 2, 3, 4, 5, 6]
-    print(sliding_window_std(l, 3))
-
-from base_mp import *
-def test08():
-    l = [0, 1, 3, 2, 9, 1, 14, 15, 1, 2, 2, 10, 7]
-    # profile, index = mp_selfjoin(l, 3)
-    # print (profile, index)
-
-    profile, index = mp_abjoin(l, [1, 3, 2, 9], 3)
-    print (profile, index)
-
-
-    # profile, index = mp2_detect_abjoin(l, [1, 3, 2, 9], 3)
-    # print (profile, index)
 
 import numpy as np
 
@@ -75,5 +58,31 @@ def test10():
     l = [float("nan"), 1, 2, 3, 4, float("nan"), 5, 6, 7, 8]
     print(moving_avg(l, 2))
 
+
+import numpy as np
+import pandas as pd
+
+import pyscamp as mp
+def test11():
+    # fn = 'samples/001_UCR_Anomaly_35000.txt'
+
+    fn = 'samples/239_UCR_Anomaly_190037.txt'
+
+    number = int(fn.split("/")[1].split("_")[0])
+    split = int(fn.split('_')[-1].split('.')[0])
+
+    X = np.loadtxt(fn)
+    print (X.dtype)
+
+    profile, index = mp.abjoin(X[split:], X[:split], 25)
+
+    print (type(profile))
+    print (profile)
+
+def test12():
+    a = np.array([1,2,3, float("nan")])
+    b = np.array([1,2,3,4])
+    print (a*b)
+
 if __name__ == "__main__":
-    test10()
+    test12()

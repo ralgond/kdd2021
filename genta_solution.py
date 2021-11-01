@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 import stumpy
 
-
-
 # Select stump function
 stump = stumpy.stump
 

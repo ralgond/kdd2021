@@ -41,34 +41,14 @@ python gen_right_format_samples.py
 
 del samples_tmp
 
-## Prepare P2P result
-python gen_p2p.py 1
-
-## Prepare STD result
-python gen_diff_std.py 1
-
-python gen_acc_std.py 1
-
 ## Prepare MP result
-python gen_mp.py 1
-
-
-python gen_diff_mp_selfjoin.py 1
-
-python gen_diff_mp_abjoin.py 1
-
-python gen_diff_mp_abjoin_normalized.py 1
-
-
-python gen_acc_mp_selfjoin.py 1
-
-python gen_acc_mp_abjoin.py 1
+python gen4_mp.py 1
 
 ## Run
 mkdir -p output
 
-python main3.py 1
+python main4.py 1
 
 ```
-The result file is output/main3.csv
+The result file is output/main4.csv
 ```

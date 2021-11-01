@@ -2,7 +2,6 @@ import os
 import sys
 import math
 from base import *
-from base_mp import *
 
 class ScorePos:
     def __init__(self, largest_score, largest_score_idx, second_largest_score, second_largest_score_idx):
@@ -25,6 +24,9 @@ def _score_list_2_scorepos(profile, win_size, train_size, add_train_size):
     second_largest_score_idx = ret[1]
     second_largest_score = profile[second_largest_score_idx]
 
+    if second_largest_score == 0.0:
+        return None
+        
     if math.isnan(largest_score) or math.isnan(second_largest_score):
         return None
 
@@ -50,25 +52,16 @@ def score_list_2_scorepos(profile, win_size, train_size, add_train_size):
         return None
 
 
-def lu_try_get_one_peek(file_path, train_size):
-    l = read_score(file_path)
+def add_scorepos(scorepos_l, scorepos, reason, train_size):
+    if scorepos is None:
+        return
 
-    win_size = cal_window_size(l)
-    if win_size > 800:
-        win_size = 800
+    if scorepos.largest_score_idx < train_size:
+        return
+    
+    scorepos_l.append(scorepos)
+    scorepos.reason = reason
 
-    largest_idx = np.argmax(l)
-    largest_score = l[largest_idx]
-
-    left_largest_idx = np.argmax(l[:largest_idx - win_size//2])
-    left_largest_score = l[:largest_idx - win_size//2][left_largest_idx]
-    right_largest_idx = np.argmax(l[largest_idx + win_size//2:])
-    right_largest_score = l[largest_idx + win_size//2:][right_largest_idx]
-
-    if largest_score * 0.5 > left_largest_score and largest_score * 0.5 > right_largest_score:
-        return ScorePos(largest_score, largest_idx + train_size, 1, 1)
-    else:
-        return None
 
 def moving_avg(s, win_size):
     ret = [float('nan') for _ in range(0, win_size)]
@@ -84,7 +77,3 @@ def read_score(file_path):
         score_l.append(score)
     return score_l
 
-def add_scorepos(scorepos_l, scorepos, reason):
-    if scorepos is not None:
-        scorepos_l.append(scorepos)
-        scorepos.reason = reason
